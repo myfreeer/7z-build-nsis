@@ -8,9 +8,9 @@ sed -i '/LFLAGS = $(LFLAGS) -OPT:NOWIN98/ c\LFLAGS = $(LFLAGS)\' CPP/Build.mak
 # insert #define NSIS_SCRIPT before the 19th line using sed
 sed -i '19 i #define NSIS_SCRIPT' CPP/7zip/Archive/Nsis/NsisIn.h
 
-# silent warning C4456 in NsisIn.cpp
-# declaration of '&1' hides previous local declaration
+# drop -WX option in Build.mak
+# workaround error C2220: warning treated as error
+# since warning C4456: declaration of '&1' hides previous local declaration
 # introduced by NSIS_SCRIPT
-# https://stackoverflow.com/a/25447795/6848772
-sed -i '1 i #pragma warning(disable:4456)' CPP/7zip/Archive/Nsis/NsisIn.cpp
+sed -i 's/ -WX//g'  CPP/Build.mak
 
