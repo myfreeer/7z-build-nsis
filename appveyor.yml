@@ -1,6 +1,7 @@
 version: 1.0.{build}
 build_script:
-  - 7-zip.bat
+- cmd: >-
+    7-zip.bat
 after_build:
 - cmd: >-
     7z a -mx9 -r release.7z *.dll *.exe *.efi *.sfx
