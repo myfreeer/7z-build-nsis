@@ -1,4 +1,6 @@
 @echo off
+setlocal EnableExtensions EnableDelayedExpansion
+pushd "%~dp0"
 mkdir 7-zip-x86
 mkdir 7-zip-x86\Lang
 mkdir 7-zip-x64
