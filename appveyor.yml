@@ -1,0 +1,28 @@
+version: 1.0.{build}
+configuration:
+- Release
+- MinSizeRel
+before_build:
+- cmd: >-
+    mkdir Build
+
+    cd Build
+
+    cmake ..
+
+    cd ..
+build:
+  project: Build\danmaku2ass_native.sln
+  verbosity: minimal
+after_build:
+- cmd: >-
+    7z a -mx9 -r release.7z *.dll
+
+    7z a -mx9 -r release.7z *.exe
+
+    7z a -mx9 -r release.7z *.efi
+
+    7z a -mx9 -r all.7z *.*
+artifacts:
+- path: release.7z
+- path: all.7z
