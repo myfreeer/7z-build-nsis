@@ -5,4 +5,5 @@ sed -i '/LFLAGS = $(LFLAGS) -OPT:NOWIN98/ c\LFLAGS = $(LFLAGS)\' CPP/Build.mak
 
 # patch NsisIn.h to enable NSIS script decompiling
 # https://sourceforge.net/p/sevenzip/discussion/45797/thread/5d10a376/
+# insert #define NSIS_SCRIPT before the 19th line using sed
 sed -i '19 i #define NSIS_SCRIPT' CPP/7zip/Archive/Nsis/NsisIn.h
