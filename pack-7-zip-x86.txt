@@ -1,0 +1,7 @@
+UI\Console\O\7z.exe
+UI\Explorer\O\7-zip.dll
+UI\FileManager\O\7zFM.exe
+UI\GUI\O\7zG.exe
+Bundles\Format7zF\O\7z.dll
+Bundles\SFXCon\O\7zCon.sfx
+Bundles\SFXWin\O\7z.sfx

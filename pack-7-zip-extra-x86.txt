@@ -1,0 +1,4 @@
+UI\Far\O\7-ZipFar.dll
+Bundles\Format7z\O\7za.dll
+Bundles\Format7zExtract\O\7zxa.dll
+Bundles\Alone\O\7za.exe
