@@ -12,7 +12,5 @@ sed -i '19 i #define NSIS_SCRIPT' CPP/7zip/Archive/Nsis/NsisIn.h
 # declaration of '&1' hides previous local declaration
 # introduced by NSIS_SCRIPT
 # https://stackoverflow.com/a/25447795/6848772
-sed -i '$ a #pragma warning(pop)' CPP/7zip/Archive/Nsis/NsisIn.cpp
-sed -i '1 i #pragma warning(disable: 4456)' CPP/7zip/Archive/Nsis/NsisIn.cpp
-sed -i '1 i #pragma warning(push)' CPP/7zip/Archive/Nsis/NsisIn.cpp
+sed -i '1 i #pragma warning(disable:4456)' CPP/7zip/Archive/Nsis/NsisIn.cpp
 
