@@ -16,4 +16,4 @@ build_script:
     7z a -mx9 -r ..\..\release.7z *.dll *.exe *.efi *.sfx
 test: off
 artifacts:
-- path: release.7z
+- path: %7z_version%-*.7z
