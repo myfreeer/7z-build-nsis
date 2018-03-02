@@ -13,4 +13,3 @@ sed -i '19 i #define NSIS_SCRIPT' CPP/7zip/Archive/Nsis/NsisIn.h
 # since warning C4456: declaration of '&1' hides previous local declaration
 # introduced by NSIS_SCRIPT
 sed -i 's/ -WX//g'  CPP/Build.mak
-
