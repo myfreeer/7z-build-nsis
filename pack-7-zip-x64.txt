@@ -5,3 +5,4 @@ UI\GUI\AMD64\7zG.exe
 Bundles\Format7zF\AMD64\7z.dll
 Bundles\SFXCon\AMD64\7zCon.sfx
 Bundles\SFXWin\AMD64\7z.sfx
+..\..\C\Util\7zipUninstall\AMD64\7zipUninstall.exe
