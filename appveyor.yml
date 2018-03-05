@@ -1,7 +1,7 @@
-version: 18.01-{build}
+version: 18.03-{build}
 build_script:
 - cmd: >-
-    set version=7z1801
+    set version=7z1803
 
     "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
 

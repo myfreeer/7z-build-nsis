@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
-set version=7z1801
+set version=7z1803
 "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
 appveyor DownloadFile http://www.7-zip.org/a/%version%-src.7z
 7z x %version%-src.7z
