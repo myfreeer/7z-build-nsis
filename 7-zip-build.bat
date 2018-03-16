@@ -3,7 +3,7 @@ setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 set version=7z1803
 "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
-appveyor DownloadFile http://www.7-zip.org/a/%version%-src.7z
+appveyor DownloadFile https://www.7-zip.org/a/%version%-src.7z
 7z x %version%-src.7z
 C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.sh"
 cd CPP\7zip
@@ -43,7 +43,7 @@ for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x86.txt) do if ex
 for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x64.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-extra-x64\
 mkdir installer
 cd installer
-appveyor DownloadFile http://www.7-zip.org/a/%version%-x64.exe
+appveyor DownloadFile https://www.7-zip.org/a/%version%-x64.exe
 7z x %version%-x64.exe
 xcopy /S /G /H /R /Y /D .\Lang ..\7-zip-x86\Lang
 xcopy /S /G /H /R /Y /D .\Lang ..\7-zip-x64\Lang

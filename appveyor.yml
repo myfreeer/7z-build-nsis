@@ -5,7 +5,7 @@ build_script:
 
     "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
 
-    appveyor DownloadFile http://www.7-zip.org/a/%version%-src.7z
+    appveyor DownloadFile https://www.7-zip.org/a/%version%-src.7z
 
     7z x %version%-src.7z
 
@@ -85,7 +85,7 @@ build_script:
 
     cd installer
 
-    appveyor DownloadFile http://www.7-zip.org/a/%version%-x64.exe
+    appveyor DownloadFile https://www.7-zip.org/a/%version%-x64.exe
 
     7z x %version%-x64.exe
 
