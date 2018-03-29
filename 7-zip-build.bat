@@ -3,7 +3,8 @@ setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 set version=7z1803
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
-call git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
+git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
+set "VC_LTL_PATH=%CD%\VC-LTL"
 set BITS=x64
 set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\14.0.24210\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%PATH%"
 set "INCLUDE=%VC_LTL_PATH%\VC\14.0.24210\include;%INCLUDE%"
