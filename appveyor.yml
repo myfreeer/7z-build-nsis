@@ -1,6 +1,8 @@
 version: 18.03-{build}
 build_script:
 - cmd: >-
+    set version=7z1803
+
     7-zip-build.bat
 test: off
 artifacts:
