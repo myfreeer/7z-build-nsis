@@ -2,34 +2,43 @@
 setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 set version=7z1803
-"%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
+call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
+git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
+set BITS=x64
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\14.0.24210\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\14.0.24210\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%VC_LTL_PATH%\ucrt\10.0.10240.0\lib\%BITS%;%LIB%"
 appveyor DownloadFile https://www.7-zip.org/a/%version%-src.7z
 7z x %version%-src.7z
 C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.sh"
 cd CPP\7zip
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake NEW_COMPILER=1 CPU=AMD64
 cd ..\..\C\Util\7z
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake NEW_COMPILER=1 CPU=AMD64
 cd ..\7zipInstall
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake NEW_COMPILER=1 CPU=AMD64
 cd ..\7zipUninstall
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake NEW_COMPILER=1 CPU=AMD64
 cd ..\SfxSetup
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
-nmake /F makefile_con NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
-"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\vsvars32.bat"
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1
-nmake /F makefile_con NEW_COMPILER=1 MY_STATIC_LINK=1
+nmake NEW_COMPILER=1 CPU=AMD64
+nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
+call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\vsvars32.bat"
+set BITS=x86
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\14.0.24210\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\14.0.24210\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%VC_LTL_PATH%\ucrt\10.0.10240.0\lib\%BITS%;%LIB%"
+nmake NEW_COMPILER=1
+nmake /F makefile_con NEW_COMPILER=1
 cd ..\7z
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1
+nmake NEW_COMPILER=1
 cd ..\7zipInstall
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1
+nmake NEW_COMPILER=1
 cd ..\7zipUninstall
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1
+nmake NEW_COMPILER=1
 cd ..\..
 7z a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 cd ..\CPP\7zip
-nmake NEW_COMPILER=1 MY_STATIC_LINK=1
+nmake NEW_COMPILER=1
 mkdir 7-zip-x86
 mkdir 7-zip-x86\Lang
 mkdir 7-zip-x64
