@@ -73,8 +73,8 @@ appveyor DownloadFile https://www.7-zip.org/a/%version%-x64.exe
 7z x %version%-x64.exe
 xcopy /S /G /H /R /Y /D .\Lang ..\7-zip-x86\Lang
 xcopy /S /G /H /R /Y /D .\Lang ..\7-zip-x64\Lang
-for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-common.txt) do if exist "%%~i" copy /Y "%%~i" ..\7-zip-x86\
-for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-common.txt) do if exist "%%~i" copy /Y "%%~i" ..\7-zip-x64\
+for /f "tokens=* eol=; delims=" %%i in (..\..\..\pack-7-zip-common.txt) do if exist "%%~i" copy /Y "%%~i" ..\7-zip-x86\
+for /f "tokens=* eol=; delims=" %%i in (..\..\..\pack-7-zip-common.txt) do if exist "%%~i" copy /Y "%%~i" ..\7-zip-x64\
 cd ..
 del /f /s /q installer\* >nul
 rd /s /q installer
