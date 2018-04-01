@@ -13,13 +13,15 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.
 :Init_VC_LTL
 git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
 set "VC_LTL_PATH=%CD%\VC-LTL"
+set "CL_VER=14.0.24210"
+set "SDK_VER=10.0.10240.0"
 
 :Env_x64
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
 set BITS=x64
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\14.0.24210\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\14.0.24210\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%VC_LTL_PATH%\ucrt\10.0.10240.0\lib\%BITS%;%LIB%"
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%CL_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\%CL_VER%\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
 
 :Build_x64
 cd CPP\7zip
@@ -37,9 +39,9 @@ nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
 :Env_x86
 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\vsvars32.bat"
 set BITS=x86
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\14.0.24210\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\14.0.24210\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\14.0.24210\lib\%BITS%;%VC_LTL_PATH%\ucrt\10.0.10240.0\lib\%BITS%;%LIB%"
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%CL_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\%CL_VER%\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
 
 :Build_x86
 nmake NEW_COMPILER=1
@@ -56,6 +58,12 @@ cd ..\CPP\7zip
 nmake NEW_COMPILER=1
 
 :Package
+REM 7-zip extra
+mkdir 7-zip-extra-x86
+mkdir 7-zip-extra-x64
+for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x86.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-extra-x86\
+for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x64.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-extra-x64\
+REM 7-zip
 mkdir 7-zip-x86
 mkdir 7-zip-x86\Lang
 mkdir 7-zip-x64
@@ -63,10 +71,6 @@ mkdir 7-zip-x64\Lang
 for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-x86.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-x86\
 for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-x64.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-x64\
 if exist 7-zip-x86\7-zip.dll copy 7-zip-x86\7-zip.dll 7-zip-x64\7-zip32.dll
-mkdir 7-zip-extra-x86
-mkdir 7-zip-extra-x64
-for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x86.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-extra-x86\
-for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-extra-x64.txt) do if exist "%%~i" move /Y "%%~i" 7-zip-extra-x64\
 mkdir installer
 cd installer
 appveyor DownloadFile https://www.7-zip.org/a/%version%-x64.exe
