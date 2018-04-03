@@ -1,4 +1,5 @@
 version: 18.03-{build}
+skip_tags: true
 build_script:
 - cmd: >-
     7-zip-build.bat

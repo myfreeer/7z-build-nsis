@@ -2,13 +2,39 @@
 setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
 
+:Init
+if not exist "%VS140COMNTOOLS%" if exist "C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools" set "VS140COMNTOOLS=C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools\"
+
+:CheckReq
+git --version 2>nul >nul  || goto :CheckReqFail
+7z i 2>nul >nul  || goto :CheckReqFail
+if not exist "%VS140COMNTOOLS%" goto :CheckReqFail
+goto :CheckReqSucc
+
+:CheckReqFail
+echo Check Requirement Failed.
+echo Visual Studio 2015 should be installed.
+echo git and 7z should be in PATH
+timeout /t 5 || pause
+goto :End
+
+:CheckReqSucc
+
 :Download_7zip
 set version=7z1803
-appveyor DownloadFile https://www.7-zip.org/a/%version%-src.7z
+call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 7z x %version%-src.7z
 
 :Patch
+if defined APPVEYOR goto :Patch_Appveyor
+busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe
+busybox sh 7-zip-patch.sh
+goto :Patch_Done
+
+:Patch_Appveyor
 C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.sh"
+
+:Patch_Done
 
 :Init_VC_LTL
 git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
@@ -37,7 +63,7 @@ nmake NEW_COMPILER=1 CPU=AMD64
 nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
 
 :Env_x86
-call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\vsvars32.bat"
+call "%VS140COMNTOOLS%\vsvars32.bat"
 set BITS=x86
 set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%CL_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%PATH%"
 set "INCLUDE=%VC_LTL_PATH%\VC\%CL_VER%\include;%INCLUDE%"
@@ -73,7 +99,7 @@ for /f "tokens=* eol=; delims=" %%i in (..\..\pack-7-zip-x64.txt) do if exist "%
 if exist 7-zip-x86\7-zip.dll copy 7-zip-x86\7-zip.dll 7-zip-x64\7-zip32.dll
 mkdir installer
 cd installer
-appveyor DownloadFile https://www.7-zip.org/a/%version%-x64.exe
+call :Download https://www.7-zip.org/a/%version%-x64.exe %version%-x64.exe
 7z x %version%-x64.exe
 xcopy /S /G /H /R /Y /Q .\Lang ..\7-zip-x86\Lang
 xcopy /S /G /H /R /Y /Q .\Lang ..\7-zip-x64\Lang
@@ -92,6 +118,20 @@ copy /b .\C\Util\7zipInstall\AMD64\7zipInstall.exe /b + %version%-x64.7z /b %ver
 copy /b .\C\Util\7zipInstall\O\7zipInstall.exe /b + %version%-x86.7z /b %version%-x86.exe
 
 :Upload
+if not defined APPVEYOR goto :End
 appveyor PushArtifact %version%-x64.exe
 appveyor PushArtifact %version%-x86.exe
 appveyor PushArtifact %version%.7z
+
+:End
+exit /b
+
+:Download
+REM call :Download URL FileName
+if defined APPVEYOR goto :Download_Appveyor
+powershell -noprofile -command "(New-Object Net.WebClient).DownloadFile('%~1', '%~2')"
+exit /b %ERRORLEVEL%
+
+:Download_Appveyor
+appveyor DownloadFile "%~1" -FileName "%~2"
+exit /b %ERRORLEVEL%
