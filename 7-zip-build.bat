@@ -27,7 +27,7 @@ call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 
 :Patch
 if defined APPVEYOR goto :Patch_Appveyor
-busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe
+busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
 busybox sh 7-zip-patch.sh
 goto :Patch_Done
 
@@ -39,15 +39,15 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.
 :Init_VC_LTL
 git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
 set "VC_LTL_PATH=%CD%\VC-LTL"
-set "CL_VER=14.0.24210"
+set "VC_VER=14.0.24210"
 set "SDK_VER=10.0.10240.0"
 
 :Env_x64
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
 set BITS=x64
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%CL_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\%CL_VER%\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%VC_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\%VC_VER%\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
 
 :Build_x64
 cd CPP\7zip
@@ -65,9 +65,9 @@ nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
 :Env_x86
 call "%VS140COMNTOOLS%\vsvars32.bat"
 set BITS=x86
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%CL_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\%CL_VER%\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%CL_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
+set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%VC_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%PATH%"
+set "INCLUDE=%VC_LTL_PATH%\VC\%VC_VER%\include;%INCLUDE%"
+set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
 
 :Build_x86
 nmake NEW_COMPILER=1
