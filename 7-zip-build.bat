@@ -39,19 +39,18 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.
 :Init_VC_LTL
 git config --global core.autocrlf true
 git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
+set "VC_LTL_PATH=%CD%\VC-LTL"
 set DisableAdvancedSupport=true
-set "VC_LTL_Root=%CD%\VC-LTL"
-set "VC_VER=14.0.24210"
-set "VC-LTLUsedToolsVersion=14.0.24210"
-set "VC-LTLTargetUniversalCRTVersion=10.0.10240.0"
-set OsPlatformName=Vista
 set LTL_Mode=Light
 
 :Env_x64
+set INCLUDE=
+set LIB=
+set VC_LTL_Helper_Load=
+set Platform=
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
-set PlatformShortName=x64
-set "INCLUDE=%VC_LTL_Root%\config\%OsPlatformName%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\include;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\atlmfc\include;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%;%INCLUDE%"
-set "LIB=%VC_LTL_Root%\%PlatformShortName%;%VC_LTL_Root%\%PlatformShortName%\%LTL_Mode%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\lib\%PlatformShortName%;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%\lib\%PlatformShortName%;%LIB%"
+call "%VC_LTL_PATH%\nmake_helper.cmd"
+@echo off
 
 echo ----------------
 echo PATH=
@@ -78,10 +77,13 @@ nmake NEW_COMPILER=1 CPU=AMD64
 nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
 
 :Env_x86
+set INCLUDE=
+set LIB=
+set VC_LTL_Helper_Load=
+set Platform=
 call "%VS140COMNTOOLS%\vsvars32.bat"
-set PlatformShortName=x86
-set "INCLUDE=%VC_LTL_Root%\config\%OsPlatformName%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\include;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\atlmfc\include;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%;%INCLUDE%"
-set "LIB=%VC_LTL_Root%\%PlatformShortName%;%VC_LTL_Root%\%PlatformShortName%\%LTL_Mode%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\lib\%PlatformShortName%;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%\lib\%PlatformShortName%;%LIB%"
+call "%VC_LTL_PATH%\nmake_helper.cmd"
+@echo off
 
 echo ----------------
 echo PATH=
