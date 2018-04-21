@@ -17,3 +17,10 @@ sed -i 's/ -WX//g'  CPP/Build.mak
 # MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; 
 # add /LTCG to the link command line to improve linker performance
 sed -i '1 a LFLAGS = $(LFLAGS) /LTCG'  CPP/Build.mak
+
+# Silent warning C4566
+# character represented by universal-character-name 'char'
+# cannot be represented in the current code page (page).
+# introduced by VC-LTL at ucrt/*/stdlib.h
+# making console output terrible without this
+sed -i '1 a CFLAGS = $(CFLAGS) /wd4566'  CPP/Build.mak

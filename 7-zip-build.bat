@@ -49,7 +49,7 @@ set LIB=
 set VC_LTL_Helper_Load=
 set Platform=
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
-call "%VC_LTL_PATH%\nmake_helper.cmd"
+call "%VC_LTL_PATH%\VC-LTL helper for nmake.cmd"
 @echo off
 
 echo ----------------
@@ -82,7 +82,7 @@ set LIB=
 set VC_LTL_Helper_Load=
 set Platform=
 call "%VS140COMNTOOLS%\vsvars32.bat"
-call "%VC_LTL_PATH%\nmake_helper.cmd"
+call "%VC_LTL_PATH%\VC-LTL helper for nmake.cmd"
 @echo off
 
 echo ----------------

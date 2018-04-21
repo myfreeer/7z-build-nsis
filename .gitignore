@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# 7-zip-related
+Asm/*
+C/*
+CPP/*
+DOC/*
+7z*-*.*
+
+# busybox
+buxybox*
+
+# VC-LTL
+VC-LTL/*
