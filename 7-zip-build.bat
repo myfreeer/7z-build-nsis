@@ -37,17 +37,32 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.
 :Patch_Done
 
 :Init_VC_LTL
+git config --global core.autocrlf true
 git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
-set "VC_LTL_PATH=%CD%\VC-LTL"
+set DisableAdvancedSupport=true
+set "VC_LTL_Root=%CD%\VC-LTL"
 set "VC_VER=14.0.24210"
-set "SDK_VER=10.0.10240.0"
+set "VC-LTLUsedToolsVersion=14.0.24210"
+set "VC-LTLTargetUniversalCRTVersion=10.0.10240.0"
+set OsPlatformName=Vista
+set LTL_Mode=Light
 
 :Env_x64
 call "%VS140COMNTOOLS%..\..\VC\vcvarsall.bat" amd64
-set BITS=x64
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%VC_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\%VC_VER%\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
+set PlatformShortName=x64
+set "INCLUDE=%VC_LTL_Root%\config\%OsPlatformName%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\include;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\atlmfc\include;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%;%INCLUDE%"
+set "LIB=%VC_LTL_Root%\%PlatformShortName%;%VC_LTL_Root%\%PlatformShortName%\%LTL_Mode%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\lib\%PlatformShortName%;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%\lib\%PlatformShortName%;%LIB%"
+
+echo ----------------
+echo PATH=
+echo %PATH%
+echo ----------------
+echo INCLUDE=
+echo %INCLUDE%
+echo ----------------
+echo LIB=
+echo %LIB%
+echo ----------------
 
 :Build_x64
 cd CPP\7zip
@@ -64,10 +79,20 @@ nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
 
 :Env_x86
 call "%VS140COMNTOOLS%\vsvars32.bat"
-set BITS=x86
-set "PATH=%VC_LTL_PATH%;%VC_LTL_PATH%\VC\%VC_VER%\include;%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%PATH%"
-set "INCLUDE=%VC_LTL_PATH%\VC\%VC_VER%\include;%INCLUDE%"
-set "LIB=%VC_LTL_PATH%\%BITS%;%VC_LTL_PATH%\VC\%VC_VER%\lib\%BITS%;%VC_LTL_PATH%\ucrt\%SDK_VER%\lib\%BITS%;%LIB%"
+set PlatformShortName=x86
+set "INCLUDE=%VC_LTL_Root%\config\%OsPlatformName%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\include;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\atlmfc\include;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%;%INCLUDE%"
+set "LIB=%VC_LTL_Root%\%PlatformShortName%;%VC_LTL_Root%\%PlatformShortName%\%LTL_Mode%;%VC_LTL_Root%\VC\%VC-LTLUsedToolsVersion%\lib\%PlatformShortName%;%VC_LTL_Root%\ucrt\%VC-LTLTargetUniversalCRTVersion%\lib\%PlatformShortName%;%LIB%"
+
+echo ----------------
+echo PATH=
+echo %PATH%
+echo ----------------
+echo INCLUDE=
+echo %INCLUDE%
+echo ----------------
+echo LIB=
+echo %LIB%
+echo ----------------
 
 :Build_x86
 nmake NEW_COMPILER=1

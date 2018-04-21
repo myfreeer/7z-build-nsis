@@ -17,9 +17,3 @@ sed -i 's/ -WX//g'  CPP/Build.mak
 # MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; 
 # add /LTCG to the link command line to improve linker performance
 sed -i '1 a LFLAGS = $(LFLAGS) /LTCG'  CPP/Build.mak
-
-# VC-LTL
-# https://github.com/Chuyu-Team/VC-LTL
-# reduces binary size
-sed -i '2 a LIBS = msvcrt_light.obj ltl.lib vc.lib ucrt.lib $(LIBS)' CPP/Build.mak
-sed -i '3 a CFLAGS = $(CFLAGS) /D_NO_CRT_STDIO_INLINE=1 /D_Build_By_LTL=1 /D_DISABLE_DEPRECATE_STATIC_CPPLIB=1 /D_STATIC_CPPLIB=1' CPP/Build.mak
