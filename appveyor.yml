@@ -1,4 +1,4 @@
-version: 18.03-{build}
+version: 18.05-{build}
 skip_tags: true
 build_script:
 - cmd: >-

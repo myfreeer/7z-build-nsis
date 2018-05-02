@@ -21,7 +21,7 @@ goto :End
 :CheckReqSucc
 
 :Download_7zip
-set version=7z1803
+set version=7z1805
 call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 7z x %version%-src.7z
 
