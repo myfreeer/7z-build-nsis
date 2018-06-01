@@ -37,8 +37,15 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.
 :Patch_Done
 
 :Init_VC_LTL
-git config --global core.autocrlf true
-git clone https://github.com/Chuyu-Team/VC-LTL.git --depth=1
+set "VC_LTL_Ver=3.0.0.3"
+set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary.7z"
+set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/%VC_LTL_Ver%/%VC_LTL_File_Name%"
+set "VC_LTL_Dir=VC-LTL"
+mkdir "%VC_LTL_Dir%"
+cd "%VC_LTL_Dir%"
+call :Download "%VC_LTL_URL%" VC_LTL.7z
+7z x VC_LTL.7z
+cd ..
 set "VC_LTL_PATH=%CD%\VC-LTL"
 set DisableAdvancedSupport=true
 set LTL_Mode=Light
@@ -81,6 +88,7 @@ set INCLUDE=
 set LIB=
 set VC_LTL_Helper_Load=
 set Platform=
+set SupportWinXP=true
 call "%VS140COMNTOOLS%\vsvars32.bat"
 call "%VC_LTL_PATH%\VC-LTL helper for nmake.cmd"
 @echo off
