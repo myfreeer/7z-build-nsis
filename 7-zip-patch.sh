@@ -22,5 +22,7 @@ sed -i '1 a LFLAGS = $(LFLAGS) /LTCG'  CPP/Build.mak
 # character represented by universal-character-name 'char'
 # cannot be represented in the current code page (page).
 # introduced by VC-LTL at ucrt/*/stdlib.h
-# making console output terrible without this
-sed -i '1 a CFLAGS = $(CFLAGS) /wd4566'  CPP/Build.mak
+# making console output terrible without this.
+# define _DISABLE_DEPRECATE_LTL_MESSAGE
+# supresses note message provided by VC-LTL.
+sed -i '1 a CFLAGS = $(CFLAGS) /wd4566 /D_DISABLE_DEPRECATE_LTL_MESSAGE'  CPP/Build.mak

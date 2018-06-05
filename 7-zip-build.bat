@@ -6,15 +6,14 @@ pushd "%~dp0"
 if not exist "%VS140COMNTOOLS%" if exist "C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools" set "VS140COMNTOOLS=C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools\"
 
 :CheckReq
-git --version 2>nul >nul  || goto :CheckReqFail
 7z i 2>nul >nul  || goto :CheckReqFail
 if not exist "%VS140COMNTOOLS%" goto :CheckReqFail
 goto :CheckReqSucc
 
 :CheckReqFail
-echo Check Requirement Failed.
-echo Visual Studio 2015 should be installed.
-echo git and 7z should be in PATH
+echo Requirement Check Failed.
+echo Visual Studio 2015 should be installed,
+echo 7z should be in PATH.
 timeout /t 5 || pause
 goto :End
 
@@ -46,7 +45,7 @@ cd "%VC_LTL_Dir%"
 call :Download "%VC_LTL_URL%" VC_LTL.7z
 7z x VC_LTL.7z
 cd ..
-set "VC_LTL_PATH=%CD%\VC-LTL"
+set "VC_LTL_PATH=%CD%\%VC_LTL_Dir%"
 set DisableAdvancedSupport=true
 set LTL_Mode=Light
 
