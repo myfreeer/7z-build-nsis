@@ -25,15 +25,7 @@ call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 7z x %version%-src.7z
 
 :Patch
-if defined APPVEYOR goto :Patch_Appveyor
-busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
-busybox sh 7-zip-patch.sh
-goto :Patch_Done
-
-:Patch_Appveyor
-C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./7-zip-patch.sh"
-
-:Patch_Done
+call :Do_Shell_Exec 7-zip-patch.sh
 
 :Init_VC_LTL
 set "VC_LTL_Ver=3.0.0.3"
@@ -89,6 +81,8 @@ set VC_LTL_Helper_Load=
 set Platform=
 set SupportWinXP=true
 call "%VS140COMNTOOLS%\vsvars32.bat"
+rem Extra patch for xp
+call :Do_Shell_Exec 7-zip-patch-xp.sh
 call "%VC_LTL_PATH%\VC-LTL helper for nmake.cmd"
 @echo off
 
@@ -104,18 +98,18 @@ echo %LIB%
 echo ----------------
 
 :Build_x86
-nmake NEW_COMPILER=1
-nmake /F makefile_con NEW_COMPILER=1
+nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /F makefile_con NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7z
-nmake NEW_COMPILER=1
+nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7zipInstall
-nmake NEW_COMPILER=1
+nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7zipUninstall
-nmake NEW_COMPILER=1
+nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\..
 7z a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 cd ..\CPP\7zip
-nmake NEW_COMPILER=1
+nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 
 :Package
 REM 7-zip extra
@@ -168,4 +162,16 @@ exit /b %ERRORLEVEL%
 
 :Download_Appveyor
 appveyor DownloadFile "%~1" -FileName "%~2"
+exit /b %ERRORLEVEL%
+
+:Do_Shell_Exec
+if defined APPVEYOR goto :Do_Shell_Exec_Appveyor
+busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
+busybox sh %1
+goto :Do_Shell_Exec_End
+
+:Do_Shell_Exec_Appveyor
+C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./%1"
+
+:Do_Shell_Exec_End
 exit /b %ERRORLEVEL%
