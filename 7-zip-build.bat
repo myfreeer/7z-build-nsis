@@ -6,14 +6,16 @@ pushd "%~dp0"
 if not exist "%VS140COMNTOOLS%" if exist "C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools" set "VS140COMNTOOLS=C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools\"
 
 :CheckReq
-7z i 2>nul >nul  || goto :CheckReqFail
+for /f "tokens=* delims=" %%i in ('where 7z') do set "_7z=%%i"
+if not defined _7z set _7z=7z
+"%_7z%" i 2>nul >nul || goto :CheckReqFail
 if not exist "%VS140COMNTOOLS%" goto :CheckReqFail
 goto :CheckReqSucc
 
 :CheckReqFail
 echo Requirement Check Failed.
 echo Visual Studio 2015 should be installed,
-echo 7z should be in PATH.
+echo 7z should be in PATH or current folder.
 timeout /t 5 || pause
 goto :End
 
@@ -22,7 +24,7 @@ goto :End
 :Download_7zip
 set version=7z1805
 call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
-7z x %version%-src.7z
+"%_7z%" x %version%-src.7z
 
 :Patch
 call :Do_Shell_Exec 7-zip-patch.sh
@@ -35,7 +37,7 @@ set "VC_LTL_Dir=VC-LTL"
 mkdir "%VC_LTL_Dir%"
 cd "%VC_LTL_Dir%"
 call :Download "%VC_LTL_URL%" VC_LTL.7z
-7z x VC_LTL.7z
+"%_7z%" x VC_LTL.7z
 cd ..
 set "VC_LTL_PATH=%CD%\%VC_LTL_Dir%"
 set DisableAdvancedSupport=true
@@ -107,7 +109,7 @@ nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7zipUninstall
 nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\..
-7z a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
+"%_7z%" a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 cd ..\CPP\7zip
 nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
 
@@ -128,7 +130,7 @@ if exist 7-zip-x86\7-zip.dll copy 7-zip-x86\7-zip.dll 7-zip-x64\7-zip32.dll
 mkdir installer
 cd installer
 call :Download https://www.7-zip.org/a/%version%-x64.exe %version%-x64.exe
-7z x %version%-x64.exe
+"%_7z%" x %version%-x64.exe
 xcopy /S /G /H /R /Y /Q .\Lang ..\7-zip-x86\Lang
 xcopy /S /G /H /R /Y /Q .\Lang ..\7-zip-x64\Lang
 for /f "tokens=* eol=; delims=" %%i in (..\..\..\pack-7-zip-common.txt) do if exist "%%~i" copy /Y "%%~i" ..\7-zip-x86\
@@ -138,9 +140,9 @@ del /f /s /q installer\* >nul
 rd /s /q installer
 move /Y .\7-zip-x64\7zipUninstall.exe .\7-zip-x64\Uninstall.exe
 move /Y .\7-zip-x86\7zipUninstall.exe .\7-zip-x86\Uninstall.exe
-7z a -mx9 -r ..\..\%version%.7z *.dll *.exe *.efi *.sfx 7-zip-x86\* 7-zip-x64\* 7-zip-extra-x86\* 7-zip-extra-x64\*
-7z a -m0=lzma -mx9 ..\..\%version%-x64.7z .\7-zip-x64\*
-7z a -m0=lzma -mx9 ..\..\%version%-x86.7z .\7-zip-x86\*
+"%_7z%" a -mx9 -r ..\..\%version%.7z *.dll *.exe *.efi *.sfx 7-zip-x86\* 7-zip-x64\* 7-zip-extra-x86\* 7-zip-extra-x64\*
+"%_7z%" a -m0=lzma -mx9 ..\..\%version%-x64.7z .\7-zip-x64\*
+"%_7z%" a -m0=lzma -mx9 ..\..\%version%-x86.7z .\7-zip-x86\*
 cd ..\..
 copy /b .\C\Util\7zipInstall\AMD64\7zipInstall.exe /b + %version%-x64.7z /b %version%-x64.exe
 copy /b .\C\Util\7zipInstall\O\7zipInstall.exe /b + %version%-x86.7z /b %version%-x86.exe
