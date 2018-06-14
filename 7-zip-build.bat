@@ -1,6 +1,7 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 pushd "%~dp0"
+set "Build_Root=%~dp0"
 
 :Init
 if not exist "%VS140COMNTOOLS%" if exist "C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools" set "VS140COMNTOOLS=C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools\"
@@ -169,7 +170,7 @@ exit /b %ERRORLEVEL%
 :Do_Shell_Exec
 if defined APPVEYOR goto :Do_Shell_Exec_Appveyor
 busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
-busybox sh %1
+busybox sh "%Build_Root%\%1"
 goto :Do_Shell_Exec_End
 
 :Do_Shell_Exec_Appveyor

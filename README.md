@@ -6,8 +6,7 @@
 
 ## Requirement
 * Visual Studio 2015 installed and `%VS140COMNTOOLS%` correctly set.
-* `git` in `PATH`
-* `7z` in `PATH`
+* `7z.exe` in `PATH` or current folder.
 * Internet accessable.
 
 ## Usage
