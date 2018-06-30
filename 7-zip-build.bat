@@ -31,7 +31,7 @@ call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 call :Do_Shell_Exec 7-zip-patch.sh
 
 :Init_VC_LTL
-set "VC_LTL_Ver=3.0.0.3"
+set "VC_LTL_Ver=3.1.0.1"
 set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary.7z"
 set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/%VC_LTL_Ver%/%VC_LTL_File_Name%"
 set "VC_LTL_Dir=VC-LTL"
@@ -66,16 +66,16 @@ echo ----------------
 
 :Build_x64
 cd CPP\7zip
-nmake NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 CPU=AMD64
 cd ..\..\C\Util\7z
-nmake NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 CPU=AMD64
 cd ..\7zipInstall
-nmake NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 CPU=AMD64
 cd ..\7zipUninstall
-nmake NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 CPU=AMD64
 cd ..\SfxSetup
-nmake NEW_COMPILER=1 CPU=AMD64
-nmake /F makefile_con NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 CPU=AMD64
+nmake /S /F makefile_con NEW_COMPILER=1 CPU=AMD64
 
 :Env_x86
 set INCLUDE=
@@ -101,18 +101,18 @@ echo %LIB%
 echo ----------------
 
 :Build_x86
-nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
-nmake /F makefile_con NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S /F makefile_con NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7z
-nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7zipInstall
-nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\7zipUninstall
-nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S NEW_COMPILER=1 SUB_SYS_VER=5.01
 cd ..\..
 "%_7z%" a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 cd ..\CPP\7zip
-nmake NEW_COMPILER=1 SUB_SYS_VER=5.01
+nmake /S NEW_COMPILER=1 SUB_SYS_VER=5.01
 
 :Package
 REM 7-zip extra
