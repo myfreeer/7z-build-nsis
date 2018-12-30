@@ -4,8 +4,34 @@ pushd "%~dp0"
 set "Build_Root=%~dp0"
 
 :Init
+rem 7-zip version
+rem https://www.7-zip.org/
+set version=7z1805
+
+rem VC-LTL version
+rem https://github.com/Chuyu-Team/VC-LTL
+set "VC_LTL_Ver=4.0.0.26"
+
+:VS_Version
+if "%VisualStudioVersion%" == "14.0" goto :VS2015
+if exist "%VS140COMNTOOLS%" goto :VS2015
+if "%VisualStudioVersion%" == "15.0" goto :VS2017
+
+:VS2017
+set "VS=VS2017"
+if exist "%VSAPPIDDIR%" if exist "%VSAPPIDDIR%\..\..\VC\Auxiliary\Build\vcvarsall.bat" (
+set "vcvarsall_bat=%VSAPPIDDIR%\..\..\VC\Auxiliary\Build\vcvarsall.bat"
+goto :CheckReq
+)
 if not exist "%VS150COMNTOOLS%" if exist "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools" set "VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\"
 set "vcvarsall_bat=%VS150COMNTOOLS%..\..\VC\Auxiliary\Build\vcvarsall.bat"
+goto :CheckReq
+
+:VS2015
+set "VS=VS2015"
+if not exist "%VS140COMNTOOLS%" if exist "C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools" set "VS140COMNTOOLS=C:\Program Files\Microsoft Visual Studio 14.0\Common7\Tools\"
+set "vcvarsall_bat=%VS140COMNTOOLS%..\..\VC\vcvarsall.bat"
+goto :CheckReq
 
 :CheckReq
 for /f "tokens=* delims=" %%i in ('where 7z') do set "_7z=%%i"
@@ -15,10 +41,9 @@ if not exist "%vcvarsall_bat%" goto :CheckReqFail
 goto :CheckReqSucc
 
 :CheckReqFail
-echo Requirement Check Failed.
-echo Visual Studio 2017 should be installed,
-echo or try to run this script from
-echo "Developer Command Prompt".
+echo Prerequisites Check Failed.
+echo Visual Studio 2017 or 2015 should be installed,
+echo or try to run this script from "Developer Command Prompt".
 echo 7z should be in PATH or current folder.
 timeout /t 5 || pause
 goto :End
@@ -26,7 +51,6 @@ goto :End
 :CheckReqSucc
 
 :Download_7zip
-set version=7z1805
 call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 "%_7z%" x %version%-src.7z
 
@@ -34,8 +58,7 @@ call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 call :Do_Shell_Exec 7-zip-patch.sh
 
 :Init_VC_LTL
-set "VC_LTL_Ver=4.0.0.26"
-set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary-VS2017.7z"
+set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary-%VS%.7z"
 set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/%VC_LTL_Ver%/%VC_LTL_File_Name%"
 set "VC_LTL_Dir=VC-LTL"
 mkdir "%VC_LTL_Dir%"
