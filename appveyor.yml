@@ -1,4 +1,4 @@
-version: 18.05-{build}
+version: 18.06-{build}
 image:
 - Visual Studio 2017
 - Visual Studio 2015
