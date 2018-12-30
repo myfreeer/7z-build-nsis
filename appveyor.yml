@@ -1,10 +1,12 @@
 version: 18.05-{build}
+image: Visual Studio 2017
 skip_tags: true
 build_script:
 - cmd: >-
     7-zip-build.bat
 test: off
-
+install:
+- '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"'
 skip_commits:
   files:
     - 'LICENSE'
