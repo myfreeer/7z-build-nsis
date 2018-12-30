@@ -4,3 +4,9 @@ build_script:
 - cmd: >-
     7-zip-build.bat
 test: off
+
+skip_commits:
+  files:
+    - 'LICENSE'
+    - '*.md'
+    - '.gitingore'
