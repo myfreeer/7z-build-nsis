@@ -4,7 +4,7 @@ pushd "%~dp0"
 set "Build_Root=%~dp0"
 
 :Init
-if not exist "%VS150COMNTOOLS%" if exist "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools" set "VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools"
+if not exist "%VS150COMNTOOLS%" if exist "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools" set "VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\"
 
 :CheckReq
 for /f "tokens=* delims=" %%i in ('where 7z') do set "_7z=%%i"
@@ -83,7 +83,7 @@ set LIB=
 set VC_LTL_Helper_Load=
 set Platform=
 set SupportWinXP=true
-call "%VS150COMNTOOLS%..\..\VC\Auxiliary\Build\vsvars32.bat"
+call "%VS150COMNTOOLS%..\..\VC\Auxiliary\Build\vcvarsall.bat" x86
 rem Extra patch for xp
 call :Do_Shell_Exec 7-zip-patch-xp.sh
 call "%VC_LTL_PATH%\VC-LTL helper for nmake.cmd"
