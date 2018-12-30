@@ -1,4 +1,4 @@
-UI\Far\AMD64\7-ZipFar.dll
-Bundles\Format7z\AMD64\7za.dll
-Bundles\Format7zExtract\AMD64\7zxa.dll
-Bundles\Alone\AMD64\7za.exe
+UI\Far\x64\7-ZipFar.dll
+Bundles\Format7z\x64\7za.dll
+Bundles\Format7zExtract\x64\7zxa.dll
+Bundles\Alone\x64\7za.exe

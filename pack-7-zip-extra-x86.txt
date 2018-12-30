@@ -1,3 +1,7 @@
+UI\Far\x86\7-ZipFar.dll
+Bundles\Format7z\x86\7za.dll
+Bundles\Format7zExtract\x86\7zxa.dll
+Bundles\Alone\x86\7za.exe
 UI\Far\O\7-ZipFar.dll
 Bundles\Format7z\O\7za.dll
 Bundles\Format7zExtract\O\7zxa.dll

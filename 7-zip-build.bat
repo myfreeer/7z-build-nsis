@@ -94,24 +94,24 @@ echo ----------------
 
 :Build_x64
 pushd CPP\7zip
-nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
 
 pushd C\Util\7z
-nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
 
 pushd C\Util\7zipInstall
-nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
 
 pushd C\Util\7zipUninstall
-nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
 
 pushd C\Util\SfxSetup
-nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64
-nmake /S /F makefile_con MY_STATIC_LINK=1 NEW_COMPILER=1 CPU=AMD64
+nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
+nmake /S /F makefile_con MY_STATIC_LINK=1 NEW_COMPILER=1 CPU=AMD64 PLATFORM=x64
 popd
 
 :Env_x86
@@ -195,8 +195,9 @@ move /Y .\7-zip-x86\7zipUninstall.exe .\7-zip-x86\Uninstall.exe
 "%_7z%" a -m0=lzma -mx9 ..\..\%version%-x64.7z .\7-zip-x64\*
 "%_7z%" a -m0=lzma -mx9 ..\..\%version%-x86.7z .\7-zip-x86\*
 popd
-copy /b .\C\Util\7zipInstall\AMD64\7zipInstall.exe /b + %version%-x64.7z /b %version%-x64.exe
-copy /b .\C\Util\7zipInstall\O\7zipInstall.exe /b + %version%-x86.7z /b %version%-x86.exe
+copy /b .\C\Util\7zipInstall\x64\7zipInstall.exe /b + %version%-x64.7z /b %version%-x64.exe
+if exist .\C\Util\7zipInstall\x86\7zipInstall.exe copy /b .\C\Util\7zipInstall\x86\7zipInstall.exe /b + %version%-x86.7z /b %version%-x86.exe
+if exist .\C\Util\7zipInstall\O\7zipInstall.exe copy /b .\C\Util\7zipInstall\O\7zipInstall.exe /b + %version%-x86.7z /b %version%-x86.exe
 
 :Upload
 if not defined APPVEYOR goto :End
