@@ -10,7 +10,7 @@ set version=7z1900
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.0.0.26"
+set "VC_LTL_Ver=4.0.2.14"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
