@@ -1,5 +1,6 @@
 version: 19.00-{build}
 image:
+- Visual Studio 2019
 - Visual Studio 2017
 - Visual Studio 2015
 skip_tags: true

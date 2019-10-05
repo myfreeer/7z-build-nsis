@@ -13,11 +13,36 @@ rem https://github.com/Chuyu-Team/VC-LTL
 set "VC_LTL_Ver=4.0.2.14"
 
 :VS_Version
-if defined APPVEYOR_BUILD_WORKER_IMAGE if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
+if defined APPVEYOR_BUILD_WORKER_IMAGE (
+  if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2019" (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
+  )
+  if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
+  )
+)
 if "%VisualStudioVersion%" == "14.0" goto :VS2015
 if "%VisualStudioVersion%" == "15.0" goto :VS2017
+if "%VisualStudioVersion%" == "16.0" goto :VS2019
 if exist "%VSAPPIDDIR%\..\..\VC\Auxiliary\Build\vcvarsall.bat" == "15.0" goto :VS2017
 if exist "%VS140COMNTOOLS%" goto :VS2015
+
+:VS2019
+set "VS=VS2019"
+if exist "%VSINSTALLDIR%" if exist "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat" (
+  set "vcvarsall_bat=%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat"
+  goto :CheckReq
+)
+if not exist "%VS160COMNTOOLS%" (
+  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools" (
+    set "VS160COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\"
+  )
+  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools" (
+    set "VS160COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\"
+  )
+)
+set "vcvarsall_bat=%VS160COMNTOOLS%..\..\VC\Auxiliary\Build\vcvarsall.bat"
+if exist "%vcvarsall_bat%" goto :CheckReq
 
 :VS2017
 set "VS=VS2017"
@@ -44,7 +69,7 @@ goto :CheckReqSucc
 
 :CheckReqFail
 echo Prerequisites Check Failed.
-echo Visual Studio 2017 or 2015 should be installed,
+echo Visual Studio 2019 or 2017 or 2015 should be installed,
 echo or try to run this script from "Developer Command Prompt".
 echo 7z should be in PATH or current folder.
 timeout /t 5 || pause
@@ -220,8 +245,8 @@ exit /b %ERRORLEVEL%
 
 :Do_Shell_Exec
 if defined APPVEYOR goto :Do_Shell_Exec_Appveyor
-busybox 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
-busybox sh "%Build_Root%\%1"
+busybox.exe 2>nul >nul || call :Download https://frippery.org/files/busybox/busybox.exe busybox.exe
+busybox.exe sh "%Build_Root%\%1"
 goto :Do_Shell_Exec_End
 
 :Do_Shell_Exec_Appveyor
