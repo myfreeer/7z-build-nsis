@@ -10,7 +10,7 @@ set version=7z1900
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.0.2.14"
+set "VC_LTL_Ver=4.0.3.8"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
