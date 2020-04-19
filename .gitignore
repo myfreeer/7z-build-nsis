@@ -37,6 +37,10 @@ C/*
 CPP/*
 DOC/*
 7z*-*.*
+7-Zip-zstd-*
+*.zip
+*.7z
+*.tar.gz
 
 # busybox
 buxybox*

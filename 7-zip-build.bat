@@ -86,9 +86,13 @@ goto :Patch
 
 :Download_7zip_zstd
 call :Download https://github.com/mcmilk/7-Zip-zstd/archive/%zstd_version%.zip %zstd_version%.zip
-"%_7z%" x %zstd_version%.zip
-if exist "7-Zip-zstd-%zstd_version%" cd "7-Zip-zstd-%zstd_version%"
-else echo "source not found" && exit 1
+"%_7z%" x "%zstd_version%.zip"
+if exist "7-Zip-zstd-%zstd_version%" (
+  cd "7-Zip-zstd-%zstd_version%"
+) else (
+  echo "source not found"
+  exit /b 1
+)
 set "Build_Root=%CD%"
 set "APPVEYOR_BUILD_FOLDER=%CD%"
 goto :Patch
