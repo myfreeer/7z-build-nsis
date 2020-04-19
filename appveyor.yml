@@ -4,6 +4,12 @@ image:
 - Visual Studio 2017
 - Visual Studio 2015
 skip_tags: true
+
+environment:
+  matrix:
+  - src: official
+  - src: zstd
+
 build_script:
 - cmd: >-
     7-zip-build.bat

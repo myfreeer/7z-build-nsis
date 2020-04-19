@@ -43,3 +43,7 @@ buxybox*
 
 # VC-LTL
 VC-LTL/*
+
+# editor
+.idea
+.vscode
