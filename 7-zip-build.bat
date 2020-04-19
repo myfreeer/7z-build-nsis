@@ -95,12 +95,8 @@ if exist "7-Zip-zstd-%zstd_version%" (
 )
 set "Build_Root=%CD%"
 set "APPVEYOR_BUILD_FOLDER=%CD%"
-copy ../7-zip-patch.sh 7-zip-patch.sh
-copy ../7-zip-patch-xp.sh 7-zip-patch-xp.sh
-
-rem disable far build, which is broken after
-rem commit d78400f0b08952c87860f0952b5b13776945200b
-rd /s /q CPP\7zip\UI\Far
+copy ..\7-zip-patch.sh 7-zip-patch.sh
+copy ..\7-zip-patch-xp.sh 7-zip-patch-xp.sh
 goto :Patch
 
 :Patch
