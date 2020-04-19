@@ -140,9 +140,13 @@ echo %LIB%
 echo ----------------
 
 :Build_x64
+if "%src%" == "zstd" (
+  call :Build_CPP_ZSTD /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
+) else (
 pushd CPP\7zip
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
+)
 
 pushd C\Util\7z
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
@@ -185,10 +189,13 @@ echo %LIB%
 echo ----------------
 
 :Build_x86
+if "%src%" == "zstd" (
+  call :Build_CPP_ZSTD /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
+) else (
 pushd CPP\7zip
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
 popd
-
+)
 pushd C\Util\7z
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
 popd
@@ -276,3 +283,71 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./%1"
 
 :Do_Shell_Exec_End
 exit /b %ERRORLEVEL%
+
+:Build_CPP_ZSTD
+set "OPTS=%*"
+pushd CPP\7zip\Bundles\Format7zExtract
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Format7z
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Format7zF
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\FileManager
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\GUI
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\Explorer
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\SFXWin
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_brotli
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lizard
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lz4
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lz5
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_zstd
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_flzma2
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\Console
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\SFXCon
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Alone
+nmake %OPTS%
+popd
+
+exit /b
