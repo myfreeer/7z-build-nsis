@@ -214,6 +214,7 @@ REM C Utils
 pushd C\
 "%_7z%" a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 popd
+if "%src%" == "zstd"  copy ..\*.txt .
 REM 7-zip extra
 pushd CPP\7zip
 mkdir 7-zip-extra-x86
