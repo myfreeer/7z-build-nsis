@@ -13,8 +13,10 @@ sed -i '19 i #define NSIS_SCRIPT' CPP/7zip/Archive/Nsis/NsisIn.h
 # since warning C4456: declaration of '&1' hides previous local declaration
 # introduced by NSIS_SCRIPT
 sed -i 's/ -WX//g'  CPP/Build.mak
+# drop /WX option for zstd
+sed -i 's/ \/WX//g'  CPP/Build.mak
 
-# MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG; 
+# MSIL .netmodule or module compiled with /GL found; restarting link with /LTCG;
 # add /LTCG to the link command line to improve linker performance
 sed -i '1 a LFLAGS = $(LFLAGS) /LTCG'  CPP/Build.mak
 
