@@ -7,10 +7,11 @@ set "Build_Root=%~dp0"
 rem 7-zip version
 rem https://www.7-zip.org/
 set version=7z1900
+set zstd_version=19.00-v1.4.4-R3
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.0.2.14"
+set "VC_LTL_Ver=4.0.3.8"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
@@ -78,8 +79,25 @@ goto :End
 :CheckReqSucc
 
 :Download_7zip
+if "%src%" == "zstd" goto :Download_7zip_zstd
 call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 "%_7z%" x %version%-src.7z
+goto :Patch
+
+:Download_7zip_zstd
+call :Download https://github.com/mcmilk/7-Zip-zstd/archive/%zstd_version%.zip %zstd_version%.zip
+"%_7z%" x "%zstd_version%.zip"
+if exist "7-Zip-zstd-%zstd_version%" (
+  cd "7-Zip-zstd-%zstd_version%"
+) else (
+  echo "source not found"
+  exit /b 1
+)
+set "Build_Root=%CD%"
+set "APPVEYOR_BUILD_FOLDER=%CD%"
+copy ..\7-zip-patch.sh 7-zip-patch.sh
+copy ..\7-zip-patch-xp.sh 7-zip-patch-xp.sh
+goto :Patch
 
 :Patch
 call :Do_Shell_Exec 7-zip-patch.sh
@@ -118,9 +136,13 @@ echo %LIB%
 echo ----------------
 
 :Build_x64
+if "%src%" == "zstd" (
+  call :Build_CPP_ZSTD /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
+) else (
 pushd CPP\7zip
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
 popd
+)
 
 pushd C\Util\7z
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 CPU=AMD64 PLATFORM=x64
@@ -163,10 +185,13 @@ echo %LIB%
 echo ----------------
 
 :Build_x86
+if "%src%" == "zstd" (
+  call :Build_CPP_ZSTD /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
+) else (
 pushd CPP\7zip
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
 popd
-
+)
 pushd C\Util\7z
 nmake /S NEW_COMPILER=1 MY_STATIC_LINK=1 SUB_SYS_VER=5.01
 popd
@@ -189,6 +214,7 @@ REM C Utils
 pushd C\
 "%_7z%" a -mx9 -r ..\%version%.7z *.dll *.exe *.efi *.sfx
 popd
+if "%src%" == "zstd"  copy ..\*.txt .
 REM 7-zip extra
 pushd CPP\7zip
 mkdir 7-zip-extra-x86
@@ -254,3 +280,71 @@ C:\msys64\usr\bin\bash -lc "cd \"$APPVEYOR_BUILD_FOLDER\" && exec ./%1"
 
 :Do_Shell_Exec_End
 exit /b %ERRORLEVEL%
+
+:Build_CPP_ZSTD
+set "OPTS=%*"
+pushd CPP\7zip\Bundles\Format7zExtract
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Format7z
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Format7zF
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\FileManager
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\GUI
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\Explorer
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\SFXWin
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_brotli
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lizard
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lz4
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_lz5
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_zstd
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Codec_flzma2
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\UI\Console
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\SFXCon
+nmake %OPTS%
+popd
+
+pushd CPP\7zip\Bundles\Alone
+nmake %OPTS%
+popd
+
+exit /b
