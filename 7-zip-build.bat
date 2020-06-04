@@ -7,7 +7,7 @@ set "Build_Root=%~dp0"
 rem 7-zip version
 rem https://www.7-zip.org/
 set version=7z1900
-set zstd_version=19.00-v1.4.4-R3
+set zstd_version=19.00-v1.4.5-R2
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
