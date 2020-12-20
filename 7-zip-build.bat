@@ -11,7 +11,7 @@ set zstd_version=19.00-v1.4.8-R1
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.0.3.8"
+set "VC_LTL_Ver=4.1.0.4"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
