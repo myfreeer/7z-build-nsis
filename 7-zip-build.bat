@@ -29,6 +29,7 @@ if exist "%VSAPPIDDIR%\..\..\VC\Auxiliary\Build\vcvarsall.bat" == "15.0" goto :V
 if exist "%VS140COMNTOOLS%" goto :VS2015
 
 :VS2019
+if defined APPVEYOR call :Appveyor_Clean_Path_VS2019
 set "VS=VS2019"
 if exist "%VSINSTALLDIR%" if exist "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat" (
   set "vcvarsall_bat=%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat"
@@ -347,4 +348,8 @@ pushd CPP\7zip\Bundles\Alone
 nmake %OPTS%
 popd
 
+exit /b
+
+:Appveyor_Clean_Path_VS2019
+set "PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\7-Zip;C:\Program Files\AppVeyor\BuildAgent\"
 exit /b
