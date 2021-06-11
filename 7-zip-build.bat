@@ -6,12 +6,12 @@ set "Build_Root=%~dp0"
 :Init
 rem 7-zip version
 rem https://www.7-zip.org/
-set version=7z1900
-set zstd_version=19.00-v1.4.8-R1
+set version=7z2102
+set zstd_version=21.02-v1.5.0-R1
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.1.0.4"
+set "VC_LTL_Ver=4.1.2"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
@@ -105,7 +105,7 @@ call :Do_Shell_Exec 7-zip-patch.sh
 
 :Init_VC_LTL
 set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary-%VS%.7z"
-set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/%VC_LTL_Ver%/%VC_LTL_File_Name%"
+set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/v%VC_LTL_Ver%/%VC_LTL_File_Name%"
 set "VC_LTL_Dir=VC-LTL"
 mkdir "%VC_LTL_Dir%"
 cd "%VC_LTL_Dir%"
