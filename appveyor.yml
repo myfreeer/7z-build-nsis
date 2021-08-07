@@ -1,4 +1,4 @@
-version: 19.00-{build}
+version: 21.03-{build}
 image:
 - Visual Studio 2019
 - Visual Studio 2017
