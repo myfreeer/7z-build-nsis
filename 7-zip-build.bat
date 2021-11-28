@@ -6,9 +6,9 @@ set "Build_Root=%~dp0"
 :Init
 rem 7-zip version
 rem https://www.7-zip.org/
-set version=7z2104
+set version=7z2106
 rem https://github.com/mcmilk/7-Zip-zstd
-set zstd_version=21.02-v1.5.0-R1
+set zstd_version=21.03-v1.5.0-R2
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL
@@ -87,7 +87,7 @@ call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
 goto :Patch
 
 :Download_7zip_zstd
-call :Download https://github.com/mcmilk/7-Zip-zstd/archive/%zstd_version%.zip %zstd_version%.zip
+call :Download https://github.com/mcmilk/7-Zip-zstd/archive/v%zstd_version%.zip %zstd_version%.zip
 "%_7z%" x "%zstd_version%.zip"
 if exist "7-Zip-zstd-%zstd_version%" (
   cd "7-Zip-zstd-%zstd_version%"
