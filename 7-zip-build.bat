@@ -11,8 +11,8 @@ rem https://github.com/mcmilk/7-Zip-zstd
 set zstd_version=21.03-v1.5.0-R2
 
 rem VC-LTL version
-rem https://github.com/Chuyu-Team/VC-LTL
-set "VC_LTL_Ver=4.1.3"
+rem https://github.com/Chuyu-Team/VC-LTL5
+set "VC_LTL_Ver=5.0.3"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
@@ -105,8 +105,8 @@ goto :Patch
 call :Do_Shell_Exec 7-zip-patch.sh
 
 :Init_VC_LTL
-set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary-%VS%.7z"
-set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL/releases/download/v%VC_LTL_Ver%/%VC_LTL_File_Name%"
+set "VC_LTL_File_Name=VC-LTL-%VC_LTL_Ver%-Binary.7z"
+set "VC_LTL_URL=https://github.com/Chuyu-Team/VC-LTL5/releases/download/v%VC_LTL_Ver%/%VC_LTL_File_Name%"
 set "VC_LTL_Dir=VC-LTL"
 mkdir "%VC_LTL_Dir%"
 cd "%VC_LTL_Dir%"
@@ -118,6 +118,8 @@ set DisableAdvancedSupport=true
 set LTL_Mode=Light
 
 :Env_x64
+set WindowsTargetPlatformMinVersion=6.0.6000.0
+set CleanImport=true
 set INCLUDE=
 set LIB=
 set VC_LTL_Helper_Load=
@@ -164,6 +166,8 @@ nmake /S /F makefile_con MY_STATIC_LINK=1 NEW_COMPILER=1 CPU=AMD64 PLATFORM=x64
 popd
 
 :Env_x86
+set WindowsTargetPlatformMinVersion=5.1.2600.0
+set CleanImport=true
 set INCLUDE=
 set LIB=
 set VC_LTL_Helper_Load=
