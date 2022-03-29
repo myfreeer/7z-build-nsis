@@ -1,5 +1,0 @@
-7-zip.chm
-descript.ion
-History.txt
-License.txt
-readme.txt
