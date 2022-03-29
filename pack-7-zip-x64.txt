@@ -1,8 +1,0 @@
-UI\Console\x64\7z.exe
-UI\Explorer\x64\7-zip.dll
-UI\FileManager\x64\7zFM.exe
-UI\GUI\x64\7zG.exe
-Bundles\Format7zF\x64\7z.dll
-Bundles\SFXCon\x64\7zCon.sfx
-Bundles\SFXWin\x64\7z.sfx
-..\..\C\Util\7zipUninstall\x64\7zipUninstall.exe
