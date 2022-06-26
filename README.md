@@ -16,7 +16,7 @@ Notice: Only executables depending on `7z.dll` can unpack nsis packages,
 [![GitHub license](https://img.shields.io/github/license/myfreeer/7z-build-nsis.svg)](LICENSE) 
 
 ## Prerequisites
-* Visual Studio 2015 or 2017 or 2019
+* Visual Studio 2015 or 2017 or 2022
 * `7z.exe` in `PATH` or current folder.
 * Internet accessible (with powershell `Net.WebClient`).
 
