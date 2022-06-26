@@ -17,7 +17,7 @@ set "VC_LTL_Ver=5.0.5"
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
   if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2022" (
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+    call "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
   )
   if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2019" (
     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
@@ -41,11 +41,11 @@ if exist "%VSINSTALLDIR%" if exist "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.
   goto :CheckReq
 )
 if not exist "%VS170COMNTOOLS%" (
-  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools" (
-    set "VS170COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools\"
+  if exist "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools" (
+    set "VS170COMNTOOLS=C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\Tools\"
   )
-  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\Tools" (
-    set "VS170COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\"
+  if exist "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools" (
+    set "VS170COMNTOOLS=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\"
   )
 )
 set "vcvarsall_bat=%VS170COMNTOOLS%..\..\VC\Auxiliary\Build\vcvarsall.bat"
