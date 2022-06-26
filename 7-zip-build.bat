@@ -16,6 +16,9 @@ set "VC_LTL_Ver=5.0.5"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
+  if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2022" (
+    call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools\VsDevCmd.bat"
+  )
   if "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2019" (
     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat"
   )
@@ -26,8 +29,27 @@ if defined APPVEYOR_BUILD_WORKER_IMAGE (
 if "%VisualStudioVersion%" == "14.0" goto :VS2015
 if "%VisualStudioVersion%" == "15.0" goto :VS2017
 if "%VisualStudioVersion%" == "16.0" goto :VS2019
+if "%VisualStudioVersion%" == "17.0" goto :VS2022
 if exist "%VSAPPIDDIR%\..\..\VC\Auxiliary\Build\vcvarsall.bat" == "15.0" goto :VS2017
 if exist "%VS140COMNTOOLS%" goto :VS2015
+
+:VS2022
+if defined APPVEYOR call :Appveyor_Clean_Path_VS2019
+set "VS=VS2022"
+if exist "%VSINSTALLDIR%" if exist "%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat" (
+  set "vcvarsall_bat=%VSINSTALLDIR%\VC\Auxiliary\Build\vcvarsall.bat"
+  goto :CheckReq
+)
+if not exist "%VS170COMNTOOLS%" (
+  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools" (
+    set "VS170COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2022\Community\Common7\Tools\"
+  )
+  if exist "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\Tools" (
+    set "VS170COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\"
+  )
+)
+set "vcvarsall_bat=%VS170COMNTOOLS%..\..\VC\Auxiliary\Build\vcvarsall.bat"
+if exist "%vcvarsall_bat%" goto :CheckReq
 
 :VS2019
 if defined APPVEYOR call :Appveyor_Clean_Path_VS2019
@@ -72,7 +94,7 @@ goto :CheckReqSucc
 
 :CheckReqFail
 echo Prerequisites Check Failed.
-echo Visual Studio 2019 or 2017 or 2015 should be installed,
+echo Visual Studio 2022 or 2019 or 2017 or 2015 should be installed,
 echo or try to run this script from "Developer Command Prompt".
 echo 7z should be in PATH or current folder.
 timeout /t 5 || pause
