@@ -1,6 +1,6 @@
 version: 21.03-{build}
 image:
-- Visual Studio 2019
+- Visual Studio 2022
 - Visual Studio 2017
 - Visual Studio 2015
 skip_tags: true
