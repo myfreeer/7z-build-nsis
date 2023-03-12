@@ -8,7 +8,7 @@ rem 7-zip version
 rem https://www.7-zip.org/
 set version=7z2201
 rem https://github.com/mcmilk/7-Zip-zstd
-set zstd_version=22.01-v1.5.4-R3
+set zstd_version=22.01-v1.5.4-R4
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL5
