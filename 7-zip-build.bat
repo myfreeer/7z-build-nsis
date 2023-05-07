@@ -12,7 +12,7 @@ set zstd_version=22.01-v1.5.5-R2
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL5
-set "VC_LTL_Ver=5.0.5"
+set "VC_LTL_Ver=5.0.7"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
