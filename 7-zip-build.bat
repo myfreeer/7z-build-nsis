@@ -6,13 +6,13 @@ set "Build_Root=%~dp0"
 :Init
 rem 7-zip version
 rem https://www.7-zip.org/
-set version=7z2301
+set version=7z2405
 rem https://github.com/mcmilk/7-Zip-zstd
 set zstd_version=22.01-v1.5.5-R3
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL5
-set "VC_LTL_Ver=5.0.5"
+set "VC_LTL_Ver=5.0.9"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
