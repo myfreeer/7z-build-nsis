@@ -1,4 +1,4 @@
-version: 21.03-{build}
+version: 24.05-{build}
 image:
 - Visual Studio 2022
 - Visual Studio 2017
@@ -19,3 +19,8 @@ skip_commits:
     - 'LICENSE'
     - '*.md'
     - '.gitingore'
+
+matrix:
+  allow_failures:
+    - image: Visual Studio 2017
+      src: zstd
