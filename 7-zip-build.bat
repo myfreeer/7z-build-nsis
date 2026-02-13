@@ -6,9 +6,9 @@ set "Build_Root=%~dp0"
 :Init
 rem 7-zip version
 rem https://www.7-zip.org/
-set version=7z2501
+set version=7z2600
 rem https://github.com/mcmilk/7-Zip-zstd
-set zstd_version=24.09-v1.5.7-R1
+set zstd_version=25.01-v1.5.7-R4
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL5
