@@ -10,7 +10,7 @@ if [[ $(uname -s) != Linux ]]; then
   exit 1
 fi
 
-sevenzip_version=${SEVENZIP_VERSION:-7z2603}
+sevenzip_version=${SEVENZIP_VERSION:-7z2604}
 build_root=${BUILD_DIR:-$project_root/build/$sevenzip_version-linux}
 dist_root=${DIST_DIR:-$project_root/dist}
 source_dir=${SEVENZIP_SOURCE_DIR:-$build_root/source}
