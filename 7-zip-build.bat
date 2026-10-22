@@ -6,13 +6,15 @@ set "Build_Root=%~dp0"
 :Init
 rem 7-zip version
 rem https://www.7-zip.org/
-set version=7z2605
+set rawversion=2605
 rem https://github.com/mcmilk/7-Zip-zstd
 set zstd_version=26.02-v1.5.7-R2
 
 rem VC-LTL version
 rem https://github.com/Chuyu-Team/VC-LTL5
 set "VC_LTL_Ver=5.0.9"
+
+set "version=7z%rawversion%"
 
 :VS_Version
 if defined APPVEYOR_BUILD_WORKER_IMAGE (
@@ -104,7 +106,9 @@ goto :End
 
 :Download_7zip
 if "%src%" == "zstd" goto :Download_7zip_zstd
-call :Download https://www.7-zip.org/a/%version%-src.7z %version%-src.7z
+set gh_ver=7zver
+set "gh_ver=%rawversion:~0,2%.%rawversion:~2,2%"
+call :Download https://github.com/ip7z/7zip/releases/download/%gh_ver%/%version%-src.7z %version%-src.7z
 "%_7z%" x %version%-src.7z
 goto :Patch
 

@@ -11,11 +11,13 @@ if [[ $(uname -s) != Linux ]]; then
 fi
 
 sevenzip_version=${SEVENZIP_VERSION:-7z2605}
+release_version=${sevenzip_version#7z}
+release_version="${release_version:0:2}.${release_version:2}"
 build_root=${BUILD_DIR:-$project_root/build/$sevenzip_version-linux}
 dist_root=${DIST_DIR:-$project_root/dist}
 source_dir=${SEVENZIP_SOURCE_DIR:-$build_root/source}
 source_archive="$build_root/$sevenzip_version-src.7z"
-source_url=${SEVENZIP_SOURCE_URL:-https://www.7-zip.org/a/$sevenzip_version-src.7z}
+source_url=${SEVENZIP_SOURCE_URL:-https://github.com/ip7z/7zip/releases/download/$release_version/$sevenzip_version-src.7z}
 
 for tool in make tar install; do
   if ! command -v "$tool" >/dev/null 2>&1; then
